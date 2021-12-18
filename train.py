@@ -87,8 +87,9 @@ class ISTrainDataset(Dataset):
     
 
 def train_loop(dataloader, model, loss_fn, optimizer, epoch, scheduler):
+    model.train()
     size = len(dataloader.dataset)
-    for batch, (X, y) in enumerate(dataloader):
+    for batch, (X, y) in tqdm(enumerate(dataloader)):
         pred = model(X)
         loss = loss_fn(pred)
         optimizer.zero_grad()
@@ -101,7 +102,7 @@ def train_loop(dataloader, model, loss_fn, optimizer, epoch, scheduler):
 
 
 loss_fn = 
-optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 epochs = 
 
 for idx in range(epochs):
