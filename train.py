@@ -86,10 +86,12 @@ class ISTrainDataset(Dataset):
 
     
 
-def train_loop(dataloader, model, loss_fn, optimizer, epoch, scheduler):
+def train_loop(dataloader, model, loss_fn, optimizer, epoch, device, scheduler):
     model.train()
-    size = len(dataloader.dataset)
-    for batch, (X, y) in tqdm(enumerate(dataloader)):
+    size = len(dataloader.dataset) # TODO: maybe unnecessary. this is cited from official tutorial
+    for batch_idx, (X_image, y_cite_gid) in tqdm(enumerate(dataloader)):
+        X_image = X_image.to(device)
+        y_cite_gid = y_cite_gid.to(device)
         pred = model(X)
         loss = loss_fn(pred)
         optimizer.zero_grad()
